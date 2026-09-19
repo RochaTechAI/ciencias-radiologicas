@@ -1,55 +1,52 @@
 import { client } from '@/sanity/lib/client';
+import { POST_BY_SLUG_QUERY, Post } from '@/sanity/lib/queries';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
 
-interface ArticleProps {
+interface ArticlePageProps {
   params: Promise<{ slug: string }>;
 }
 
-async function getArticle(slug: string) {
-  const query = `*[_type == "post" && slug.current == $slug][0]{
-    title,
-    description,
-    category,
-    publishedAt,
-    "imageUrl": mainImage.asset->url
-  }`;
-  return await client.fetch(query, { slug });
-}
-
-export default async function ArticlePage({ params }: ArticleProps) {
+export default async function ArticlePage({ params }: ArticlePageProps) {
   const { slug } = await params;
-  const article = await getArticle(slug);
+  const post: Post = await client.fetch(POST_BY_SLUG_QUERY, { slug });
 
-  if (!article) {
-    return (
-      <main className="max-w-4xl mx-auto px-6 py-12 text-center">
-        <h1 className="text-xl font-bold text-slate-800">Artigo não encontrado.</h1>
-      </main>
-    );
+  if (!post) {
+    notFound();
   }
 
   return (
-    <main className="max-w-4xl mx-auto px-6 py-8 space-y-6">
-      <span className="text-xs font-semibold text-sky-600 uppercase">
-        {article.category}
-      </span>
+    <article className="max-w-4xl mx-auto px-6 py-10 space-y-8">
+      <Link href="/" className="text-sm font-medium text-sky-600 hover:underline">
+        ← Voltar para a página inicial
+      </Link>
 
-      <h1 className="text-3xl font-bold text-slate-900 leading-tight">
-        {article.title}
-      </h1>
+      <div className="space-y-4">
+        <span className="text-xs font-semibold text-sky-600 uppercase tracking-wider">
+          {post.category}
+        </span>
+        <h1 className="text-4xl font-bold text-slate-900 leading-tight">
+          {post.title}
+        </h1>
+        <p className="text-lg text-slate-600 leading-relaxed">
+          {post.description}
+        </p>
+        <p className="text-xs text-slate-400">
+          Publicado a {new Date(post.publishedAt).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric',
+          })}
+        </p>
+      </div>
 
-      <p className="text-sm text-slate-600 leading-relaxed">
-        {article.description}
-      </p>
-
-      {article.imageUrl && (
-        <div className="w-full h-96 bg-slate-100 rounded-lg overflow-hidden">
-          <img
-            src={article.imageUrl}
-            alt={article.title}
-            className="w-full h-full object-cover"
-          />
-        </div>
+      {post.imageUrl && (
+        <img
+          src={post.imageUrl}
+          alt={post.title}
+          className="w-full h-96 object-cover rounded-xl shadow-sm"
+        />
       )}
-    </main>
+    </article>
   );
 }
