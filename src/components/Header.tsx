@@ -9,6 +9,7 @@ export function Header() {
 
   const navLinks = [
     { label: 'Início', href: '/' },
+    { label: 'Anatomia 3D', href: '/anatomia' },
     { label: 'Artigos & Notícias', href: '#artigos' },
     { label: 'Área de Estudos', href: '#estudos' },
     { label: 'Tomografia', href: '#tomografia' },
@@ -71,7 +72,7 @@ export function Header() {
         </div>
       </div>
 
-      {/* Menu Pílula Cinza (Igual ao Futurecom) */}
+      {/* Menu Pílula Cinza */}
       <div className="max-w-7xl mx-auto px-6 pb-4">
         <nav className="bg-[#EAECEF] rounded-lg px-4 py-2 flex items-center gap-6 text-xs font-medium text-slate-700 overflow-x-auto">
           {navLinks.map((link) => (
