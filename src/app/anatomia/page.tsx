@@ -2,16 +2,19 @@
 
 import React, { useState } from 'react';
 import AnatomicalHuman from '@/components/AnatomiaHuman';
+import AnatomyChat from '@/components/AnatomyChat';
 import { ANATOMY_DATA } from '@/data/anatomyData';
+import { Bot, X } from 'lucide-react';
 
 export default function AnatomiaPage() {
   const [activeSystem, setActiveSystem] = useState<'myology' | 'arthrology'>('myology');
   const [selectedRegion, setSelectedRegion] = useState<string>('cranio');
+  const [isChatOpen, setIsChatOpen] = useState<boolean>(false);
 
   const currentData = ANATOMY_DATA[selectedRegion] || ANATOMY_DATA['cranio'];
 
   return (
-    <main className="max-w-7xl mx-auto p-6 space-y-6">
+    <main className="max-w-7xl mx-auto p-6 space-y-6 relative">
       <AnatomicalHuman
         onSelectRegion={setSelectedRegion}
         selectedRegion={selectedRegion}
@@ -77,6 +80,22 @@ export default function AnatomiaPage() {
           {currentData.radiologyNotes}
         </div>
       </div>
+
+      {/* Janela Flutuante do Chat de IA */}
+      {isChatOpen && (
+        <div className="fixed bottom-24 right-6 w-80 sm:w-96 h-[500px] z-50 shadow-2xl rounded-xl overflow-hidden transition-all">
+          <AnatomyChat />
+        </div>
+      )}
+
+      {/* Botão de Ativação (Robôzinho) */}
+      <button
+        onClick={() => setIsChatOpen(!isChatOpen)}
+        className="fixed bottom-6 right-6 p-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95 z-50 flex items-center justify-center"
+        aria-label="Abrir Tutor de IA"
+      >
+        {isChatOpen ? <X className="w-6 h-6" /> : <Bot className="w-6 h-6" />}
+      </button>
     </main>
   );
 }
