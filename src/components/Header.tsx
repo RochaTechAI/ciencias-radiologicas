@@ -14,7 +14,7 @@ export function Header() {
     { label: 'Área de Estudos', href: '#estudos' },
     { label: 'Tomografia', href: '#tomografia' },
     { label: 'Ressonância', href: '#ressonancia' },
-    { label: 'Ultrassonografia', href: '#ultrassonografia' },
+    { label: 'Radioterapia', href: '#radioterapia' },
     { label: 'Medicina Nuclear', href: '#medicina-nuclear' },
   ];
 
