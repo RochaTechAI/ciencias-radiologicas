@@ -10,12 +10,12 @@ export function Header() {
   const navLinks = [
     { label: 'Início', href: '/' },
     { label: 'Anatomia 3D', href: '/anatomia' },
-    { label: 'Artigos & Notícias', href: '#artigos' },
-    { label: 'Área de Estudos', href: '#estudos' },
-    { label: 'Tomografia', href: '#tomografia' },
-    { label: 'Ressonância', href: '#ressonancia' },
-    { label: 'Radioterapia', href: '#radioterapia' },
-    { label: 'Medicina Nuclear', href: '#medicina-nuclear' },
+    { label: 'Artigos & Notícias', href: '/artigo' },
+    { label: 'Área de Estudos', href: '/estudos' },
+    { label: 'Tomografia', href: '/tomografia' },
+    { label: 'Ressonância', href: '/ressonancia' },
+    { label: 'Radioterapia', href: '/radioterapia' },
+    { label: 'Medicina Nuclear', href: '/medicina-nuclear' },
   ];
 
   return (
@@ -40,7 +40,7 @@ export function Header() {
 
       {/* Header Principal */}
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/" scroll={true} className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full border-2 border-slate-900 flex items-center justify-center font-bold text-xs text-slate-900">
             CR
           </div>
@@ -65,6 +65,7 @@ export function Header() {
           </div>
           <Link
             href="/studio"
+            scroll={true}
             className="bg-[#0A192F] text-white text-xs font-semibold px-4 py-1.5 rounded-full hover:bg-slate-800 transition"
           >
             Painel Admin
@@ -76,7 +77,12 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 pb-4">
         <nav className="bg-[#EAECEF] rounded-lg px-4 py-2 flex items-center gap-6 text-xs font-medium text-slate-700 overflow-x-auto">
           {navLinks.map((link) => (
-            <Link key={link.label} href={link.href} className="hover:text-black whitespace-nowrap">
+            <Link 
+              key={link.label} 
+              href={link.href} 
+              scroll={true}
+              className="hover:text-black whitespace-nowrap transition-colors"
+            >
               {link.label}
             </Link>
           ))}

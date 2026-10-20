@@ -16,12 +16,11 @@ export default function AnatomyChat({
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
-
+  // Trava a rolagem automática para que só ocorra quando houver mensagens interativas
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0 || loading) {
+      chatEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   }, [messages, loading]);
 
   const sendMessage = async () => {
